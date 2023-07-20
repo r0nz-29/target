@@ -1,5 +1,3 @@
-import './App.css'
-import SignUp from './components/Account/SignUp'
 import Header from './components/Header'
 import NavBar from './components/Navbar'
 
