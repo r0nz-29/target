@@ -9,6 +9,8 @@ function App() {
 
   return (
     <div>
+      {/* <NavBar/>
+      <Header/> */}
       <Leader/>
       <LeaderBoard/>
     </div>

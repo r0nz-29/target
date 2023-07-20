@@ -1,11 +1,17 @@
 import React from 'react';
+import { useState } from 'react';
+import CustomModal from '../Modal/index.jsx'
+
 
 const Header = () => {
-
+  
+  const [openModal, setOpenModal] = useState('undefined');
+  const props = { openModal, setOpenModal };
   const backgroundImageUrl = 'url(./Header.svg)';
   const backgroundSize = 'cover';
 
   return (
+    <>
     <section className="text-white body-font py-24" style={{
         backgroundImage: backgroundImageUrl,
         backgroundSize: backgroundSize,
@@ -19,7 +25,9 @@ const Header = () => {
       <p className="mb-8 leading-relaxed">Welcome to Rocket Type, the ultimate web application for improving your typing speed and accuracy! Whether you're a beginner looking to learn touch typing or a seasoned typist aiming to reach new heights, Rocket Type has got you covered.</p>
       <div className="flex justify-center">
         <button className="inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">Practice Mode</button>
-        <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">Multiplayer Mode</button>
+        <button 
+        onClick={() => props.setOpenModal('default')}
+        className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">Multiplayer Mode</button>
       </div>
     </div>
     <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:block hidden">
@@ -27,6 +35,9 @@ const Header = () => {
     </div>
   </div>
 </section>
+
+<CustomModal openModal={openModal} setOpenModal={setOpenModal} />
+</>
   );
 };
 

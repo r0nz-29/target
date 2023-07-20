@@ -25,7 +25,7 @@ const Navbar = ({
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <img src="./Mainlogo.png" alt="#" height={40} width={40} />
+            <img src="./logo.svg" alt="#" height={40} width={40} />
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
@@ -33,21 +33,16 @@ const Navbar = ({
               About
             </button>
             <button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
-              Projects
-            </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(timelineSection.current)}>
-              Experience
+              DashBoard
             </button>
             <button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
-              Certificates
+              FAQs
             </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(contactSection.current)}>
-              Contact
-            </button>
-
             </div>
           </div>
-
+          <button className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium">
+            Sign In
+          </button>
           <div className="mr-2 flex md:hidden justify-end">
             <button
               onClick={() => toggleMenu()}
@@ -68,18 +63,14 @@ const Navbar = ({
           About
         </button>
         <button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
-          Projects
+          DashBoard
         </button>
         <button className={styles.butt_nav} onClick={() => handleScroll(timelineSection.current)}>
           Experience
         </button>
         <button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
-          Certificates
+          FAQs
         </button>
-        <button className={styles.butt_nav} onClick={() => handleScroll(contactSection.current)}>
-          Contact
-        </button>
-
         </div>
       </div>
     </nav>
