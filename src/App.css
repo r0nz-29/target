@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #333;
+    background-color: #fff;
 }
 
 .para-container {
@@ -26,6 +26,6 @@ body {
 
 @keyframes blink {
     50% {
-        border-color: #333;
+        border-color: #fff;
     }
 }

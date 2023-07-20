@@ -20,6 +20,7 @@ export const SPECIAL_KEYS = new Set([
 export const GAMESTATES = {
 	TYPING: 'typing',
 	IDLE: 'idle',
+	COMPLETED: 'completed'
 }
 
 export const useGlobalState = create((set) => ({
@@ -30,6 +31,7 @@ export const useGlobalState = create((set) => ({
 	gameState: GAMESTATES.IDLE,
 	incrementCursor: () => set(state => ({cursorPosition: state.cursorPosition + 1})),
 	incrementErrors: () => set(state => ({errors: state.errors + 1})),
+	updateGameState: (gameState) => set(() => ({gameState})),
 	// decrementCursor: () => set(state => state.cursorPosition===0 ? state : ({cursorPosition: state.cursorPosition - 1})),
 	updateTypedParagraph: (char) => set((state) => ({typedParagraph: state.typedParagraph + char})),
 	hitBackspace: () => set(state => ({typedParagraph: state.typedParagraph.slice(0, -1)}))

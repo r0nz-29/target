@@ -24,19 +24,13 @@ export const calculateAccuracy = (originalParagraph, typedParagraph) => {
 
 export const calculateWPM = (
 	typedParagraph,
-	// accuracy,
-	timeInMilliSecs
+	wrongChars,
+	timeInSecs
 ) => {
-	const minutes = timeInMilliSecs / 1000;
+	const minutes = timeInSecs / 60;
 	const wordsTyped = typedParagraph.length / 5;
-	const grossWPM = wordsTyped / minutes;
-	// const netWPM = Math.round(grossWPM * (accuracy / 100));
-	//
-	// const results = {
-	// 	wpm: netWPM,
-	// 	cpm: typedParagraph.length / minutes,
-	// };
-	return grossWPM;
+	const wrongWordsTyped = wrongChars / 5;
+	return (wordsTyped - wrongWordsTyped) / minutes;
 };
 
 export const calculateErrorPercentage = (accuracy) => {

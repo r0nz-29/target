@@ -1,29 +1,58 @@
 import './App.css'
 import {GAMESTATES, SPECIAL_KEYS, useGlobalState} from "./store/index.js";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import ResultsModal from "./components/ResultsModal/index.jsx";
 
 function App() {
 	const {
 		originalParagraph: words,
 		typedParagraph: typed,
 		cursorPosition: cursor,
-		errors,
-		gameState
+		gameState,
+		incrementCursor,
+		incrementErrors,
+		updateTypedParagraph: updateParagraph,
+		updateGameState
 	} = useGlobalState(state => state);
-	const {incrementCursor, incrementErrors, updateTypedParagraph: updateParagraph} = useGlobalState(state => state);
+	const [timerInSec, setTimerInSec] = useState(15);
+
+	useEffect(() => {
+		if (gameState === GAMESTATES.IDLE || gameState === GAMESTATES.COMPLETED) return;
+		let i = 15;
+		const interval = setInterval(function () {
+			if (i <= 0) {
+				updateGameState(GAMESTATES.COMPLETED);
+				clearInterval(interval);
+				return;
+			}
+			i--;
+			console.log("minus")
+			setTimerInSec(i);
+		}, 1000);
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [gameState, updateGameState])
+
+	function startGame() {
+		updateGameState(GAMESTATES.TYPING);
+	}
+
+	useEffect(() => {
+		if (cursor === words.length) {
+			updateGameState(GAMESTATES.COMPLETED);
+		}
+	}, [cursor, updateGameState, words, words.length])
 
 	useEffect(() => {
 		function handleKeydown(e) {
-			if (SPECIAL_KEYS.has(e.key)) return;
-			// if (e.key === BACKSPACE) {
-			// 	deleteChar();
-			// 	decrementCursor()
-			// 	return;
-			// }
+			if (gameState === GAMESTATES.IDLE || SPECIAL_KEYS.has(e.key)) return;
 
 			if (e.key !== words[cursor]) {
 				const char = document.getElementById(`char-at-${cursor}`);
 				char.style.color = "#f00"
+				char.style.fontWeight = "bold"
 				incrementErrors()
 				return;
 			}
@@ -32,8 +61,7 @@ function App() {
 			incrementCursor();
 		}
 
-		if (gameState===GAMESTATES.IDLE) return;
-
+		if (gameState === GAMESTATES.IDLE) return;
 		window.addEventListener('keydown', handleKeydown);
 
 		return () => window.removeEventListener('keydown', handleKeydown);
@@ -41,32 +69,34 @@ function App() {
 
 	return (
 		<div className="w-full h-screen flex flex-col justify-center items-center">
-			<div className="relative w-1/2 h-1/4">
-				<p className="para-container text-xl w-full">
+			<p
+				className={`justify-start w-1/2 text-xl ${gameState === GAMESTATES.TYPING ? 'text-yellow-300' : 'text-[#333]'}`}>
+				{timerInSec}s
+			</p>
+			<div className="relative w-1/2 h-fit">
+				<p className="break-all text-xl w-full">
 					{words.split("").map((char, i) => (
 						<span key={i} id={`char-at-${i}`}
-									className={`highlight text-gray-500 font-light ${gameState===GAMESTATES.TYPING && i === cursor && 'border-b-4 border-pink-500'}`}>
+									className={`highlight text-gray-500 font-light ${gameState === GAMESTATES.TYPING && i === cursor && 'border-b-4 border-pink-500'}`}>
 						{char}
 					</span>
 					))}
 				</p>
-				{/*${i===cursor ? char===' ' ? 'border-b border-blue-500' : 'text-blue-500' : ''}*/}
 				<p className="para-container text-xl w-full">
 					{typed.split("").map((char, i) => (
-						<span key={i} className={`blinker text-white`}>
+						<span key={i} className={`blinker text-black font-bold`}>
 						{char}
 					</span>
 					))}
 				</p>
 			</div>
-			{/*<button onClick={() => {*/}
-			{/*	const end = performance.now();*/}
-			{/*	const acc = calculateAccuracy(words, typed);*/}
-			{/*	const wpm = calculateWPM(typed, end - start);*/}
-			{/*	console.log(`original: ${words}\n typed: ${typed}`)*/}
-			{/*	console.log(`accuracy: ${acc}\n errors: ${errors}\n wpm: ${wpm}`)*/}
-			{/*}}>Check*/}
-			{/*</button>*/}
+			{
+				gameState === GAMESTATES.COMPLETED && <ResultsModal/>
+			}
+			<button disabled={gameState === GAMESTATES.TYPING}
+							className={`${gameState === GAMESTATES.IDLE ? 'bg-blue-500 text-white' : 'bg-slate-500 text-black'} px-6 py-2 rounded-lg mt-8`}
+							onClick={startGame}>Start
+			</button>
 		</div>
 	)
 }
