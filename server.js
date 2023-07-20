@@ -128,7 +128,7 @@ io.on("connection", function (socket) {
     dis(socket.id);
   })
   socket.on("new_wpm",function (data){
-    const room_id=Running.get(socket.id);
+    const room_id=Socket_list.get(socket.id);
     Running.get(room_id).set(socket.id,data);
     const a=[]
     for([key,value] in Running.get(room_id)){
