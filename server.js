@@ -1,44 +1,52 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { config } = require("dotenv");
+const Connection = require("./database/connection.js");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const { join_lobby } = require("./lobbies.js");
 const { disconnect } = require("process");
-config();
 const TIME=15;
 const Lobbies = {"easy":[],"medium":[],"hard":[]};
 const Socket_list=new Map();
 const Running = new Map();
 const Private_lobbies=new Map();
 const app = express();
+const { signin, signup } = require("./controller/user.js");
+const { saveUser, getUserHistory} = require("./controller/user_history.js")
+
+
 const structure = {
   socket_id: "",
   position: "",
   speed: "",
 };
 
-// lobbie={
-// 	lobbie_id:"",
-// 	participants:[structure..]
-// }
-app.use(cors());
 
+app.use(cors());
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .send(
-      '<img src="https://res.cloudinary.com/daa4wqa2h/image/upload/v1689840737/afj_jhrf75.png" alt="pogger" />'
-    );
+const URL = process.env.DB;
+Connection(URL);
+
+app.post("/signup",signup);
+app.post("/signin",signin);
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
+
+
+
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
     origin: "*",
   },
 });
+
 // Function to transfer lobbies to running mode
 // Goes through all lobies in particular difficulty decreases time 
 // one with time 0 is picked A map is created which with key player_socket.id and values as player stats
@@ -103,19 +111,7 @@ setInterval(function () {
   a=[]
 }, 1000);
 
-mongoose
-  .connect(process.env.DB, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    http.listen(process.env.PORT || 3000, () => {
-      console.log("Backend running at port: " + process.env.PORT);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+
 
 io.on("connection", function (socket) {
   console.log(socket.id);
