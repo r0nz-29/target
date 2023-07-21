@@ -8,6 +8,8 @@ import NavBar from './components/Navbar'
 import Toggleaccount from './components/Account';
 import DataProvider from './context/DataProvider';
   
+import MultiplayerTest from "./pages/MultiplayerTest/index.jsx";
+
 function App() {
 	
 	return (
@@ -17,6 +19,7 @@ function App() {
 				<Route path="/" element={ <Home/> }/>
 				<Route path="/solo" element={ <SoloTest/> }/>
 				<Route path="/login" element = { <Toggleaccount/> }/>
+				<Route path="/multiplayer" element={<MultiplayerTest/>}/>
 				<Route path="/multiplayer/leaderboard" element={<><Leader/><LeaderBoard/></>}/>
 			</Routes>
 		</DataProvider>
