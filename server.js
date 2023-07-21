@@ -157,15 +157,12 @@ function calculate_wpm(pos,accuracy,errors){
     let len=0;
     for(let [key, value] of Running.get(room_id)){
       res[key] = value;
-    }
-    
-    for (let [key, value] of Running.get(room_id)) {
-      if(res['over']===true){
-        res['speed']=calculate_wpm(res['pos'],res['accuracy'],res['errors']);
+      if(res[key].over===true){
+        console.log
+        res[key].speed=calculate_wpm(res[key].pos,res[key].accuracy,res[key].errors);
         len++;
       }
     }
-
     if(len===Running.get(room_id).length){
       io.sockets.in(room_id).emit("over",res);
     }
