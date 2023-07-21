@@ -123,7 +123,7 @@ io.on("connection", function (socket) {
         x=i;
       }
     }
-    io.sockets.in(room_id).emit("new_member",Lobbies[i]);
+    io.sockets.in(room_id).emit("new_member",Lobbies[x]);
     }
     else{
 
