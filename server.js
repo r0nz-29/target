@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const { join_lobby } = require("./lobbies.js");
 const { disconnect } = require("process");
 config();
+const TIME=15;
 const Lobbies = {"easy":[],"medium":[],"hard":[]};
 const Socket_list=new Map();
 const Running = new Map();
@@ -140,19 +141,34 @@ io.on("connection", function (socket) {
     console.log(socket.id);
     dis(socket.id);
   })
+function calculate_wpm(pos,accuracy,errors){
+  const minutes = TIME/ 60;
+	const wordsTyped = pos / 5;
+	const wrongWordsTyped = errors / 5;
+	const wpm = (wordsTyped - wrongWordsTyped) / minutes;
+	return wpm > 0 ? wpm : 0;
+}
   socket.on("new_wpm",function (data){
     const room_id=Socket_list.get(socket.id);
     Running.get(room_id).set(socket.id,data);
     const a=[]
-    // console.log(Running.get(room_id));
+    console.log(Running.get(room_id));
     const res = {};
-
+    let len=0;
     for(let [key, value] of Running.get(room_id)){
       res[key] = value;
+      if(res[over]===true){
+        res[speed]=calculate_wpm(res[pos],res[accuracy],res[errors]);
+        len++;
+      }
     }
-
+    if(len===Running.get(room_id).length){
+      io.sockets.in(room_id).emit("over",res);
+    }
+    else{
     console.log(res);
     io.sockets.in(room_id).emit("update", res);
+    }
   })
   // socket.on("leave")
 });
