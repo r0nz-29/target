@@ -43,11 +43,15 @@ const io = require("socket.io")(http, {
 // one with time 0 is picked A map is created which with key player_socket.id and values as player stats
 // This map acts as a value for Running map which has lobbie id as key
 // emits start to lobby( broadcast ) so all players can start the game
+
 function dis(socket_id){
   let a=Socket_list.get(socket_id);
     if(Running.get(a)){
       Running.get(a).delete(socket_id);
     }
+  if(a){
+  io.sockets.in(a).emit('leave',socket_id);
+  }
 }
 
 
@@ -63,7 +67,7 @@ for (let i = 0; i < l.length; i++) {
    
     console.log(l[i].participants.length);
     for (let x = 0; x < l[i].participants.length; x++) {   
-      Socket_list.set(l[i].participants[x],l[i].lobbie_id);
+      // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
       mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false });
     }
   Running.set(l[i].lobbie_id, mp);
@@ -144,4 +148,5 @@ io.on("connection", function (socket) {
     }
     io.sockets.in(room_id).emit("update",a);
   })
+  socket.on("leave")
 });
