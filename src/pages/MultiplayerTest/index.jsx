@@ -49,27 +49,32 @@ export default function MultiplayerTest() {
 			setRoomMembers(payload);
 		}
 
+		function onLeave(payload) {
+			delete roomMembers[payload];
+			console.log(roomMembers);
+			setRoomMembers(roomMembers);
+		}
+
+		function onOver(payload) {
+			console.log('over payload')
+			setRoomMembers(payload);
+		}
+
 		socket.on('update', onUpdate);
+		socket.on('leave', onLeave);
+		socket.on('over', onOver);
 	}, [])
 
 	return (
 		<div className="w-full h-screen flex flex-col justify-start items-center pt-8">
 			{roomName !== '' && <p className="text-lg">Room Name: {roomName}</p>}
-			<div className="grid grid-cols-2">
-				<p className='font-bold border p-2'>username</p><p className='font-bold border p-2'>wpm</p>
-				{Object.keys(roomMembers).map(username => {
-					console.log(roomMembers[username])
-					return (
-						<Fragment key={username}>
-							<p className='border p-2'>
-								{socket.id === username ? "me" : username}
-							</p>
-							<p className='border p-2'>
-								{roomMembers[username]?.speed.toFixed(2)}
-							</p>
-						</Fragment>
-					)
-				})}
+			<div className="grid grid-cols-3">
+				<p className='font-bold border p-2'>username</p>
+				<p className='font-bold border p-2'>wpm</p>
+				<p className='font-bold border p-2'>progress</p>
+				{Object.keys(roomMembers).map(username => (
+					<Row key={username} words={words}/>
+				))}
 			</div>
 			{
 				!start && <p className="text-xl">Game starts in: <span className="text-red-400">{timeout}s</span></p>
@@ -102,5 +107,30 @@ export default function MultiplayerTest() {
 				)
 			}
 		</div>
+	)
+}
+
+function Row({username, words}) {
+	const [prog, setProg] = useState('0%');
+	const {roomMembers} = useGlobalState();
+
+	useEffect(() => {
+		let progress = roomMembers[username]?.pos;
+		progress = 100 * (progress / words.length);
+		setProg(`${progress}%`);
+	}, [roomMembers, username])
+
+	return (
+		<Fragment key={username}>
+			<p className='border p-2'>
+				{socket.id === username ? "me" : username}
+			</p>
+			<p className='border p-2'>
+				{roomMembers[username]?.speed.toFixed(2)}
+			</p>
+			<div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+				<div className="bg-blue-600 h-2.5 rounded-full" style={{width: prog}}></div>
+			</div>
+		</Fragment>
 	)
 }

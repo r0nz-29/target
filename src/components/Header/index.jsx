@@ -22,7 +22,7 @@ const Home = () => {
 			setRoomName(lobbie_id);
 			const parts = {};
 			for (const p of participants) {
-				parts[p] = {speed: 0, pos: 0, over: false};
+				parts[p] = {speed: 0, pos: 0, over: false, errors: 0, accuracy: 0};
 			}
 			setRoomMembers(parts);
 			setFindingRoom(false);
