@@ -47,6 +47,7 @@ const io = require("socket.io")(http, {
 
 function dis(socket_id){
   let a=Socket_list.get(socket_id);
+  Socket_list.delete(socket_id);
     if(Running.get(a)){
       Running.get(a).delete(socket_id);
     }
