@@ -158,13 +158,14 @@ function calculate_wpm(pos,accuracy,errors){
     for(let [key, value] of Running.get(room_id)){
       res[key] = value;
       if(res[key].over===true){
-        console.log
         res[key].speed=calculate_wpm(res[key].pos,res[key].accuracy,res[key].errors);
         len++;
       }
     }
-    if(len===Running.get(room_id).length){
+    console.log(len + " ---- "+ Running.get(room_id).size)
+    if(len===Running.get(room_id).size){
       io.sockets.in(room_id).emit("over",res);
+      console.log("udaaa")
     }
     else{
     console.log(res);
