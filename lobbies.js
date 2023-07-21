@@ -11,7 +11,7 @@ const structure= {
 function create_lobby(lobbies,difficulty){
     let lobbie_id= randomstring.generate(26);
     let l=lobbies[difficulty];
-    l = [...l, {lobbie_id:lobbie_id,time:120,participants:[]}]
+    l = [...l, {lobbie_id:lobbie_id,time:30,participants:[]}]
     
     lobbies[difficulty]=l;
     

@@ -6,6 +6,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const { join_lobby } = require("./lobbies.js");
 const { disconnect } = require("process");
+const TIME=15;
 const Lobbies = {"easy":[],"medium":[],"hard":[]};
 const Socket_list=new Map();
 const Running = new Map();
@@ -54,6 +55,7 @@ const io = require("socket.io")(http, {
 
 function dis(socket_id){
   let a=Socket_list.get(socket_id);
+  Socket_list.delete(socket_id);
     if(Running.get(a)){
       Running.get(a).delete(socket_id);
     }
@@ -73,10 +75,10 @@ for (let i = 0; i < l.length; i++) {
   if (l[i].time === 0) {
     const mp = new Map();   
    
-    console.log(l[i].participants.length);
+    // console.log(l[i].participants.length);
     for (let x = 0; x < l[i].participants.length; x++) {   
       // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
-      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false });
+      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0 });
     }
   Running.set(l[i].lobbie_id, mp);
   io.sockets.in(l[i].lobbie_id).emit('start');
@@ -88,7 +90,7 @@ return a;
 }
 // Deletes Running lobbies with 0 players
 setInterval(function (){
-  console.log(Running);
+  // console.log(Running);
 	for (const [key, value] of Running) {
     
     if(value.size==0){
@@ -118,6 +120,7 @@ io.on("connection", function (socket) {
     if(difficulty.length<10){
     const room_id = join_lobby(Lobbies, difficulty, socket);
     socket.join(room_id);
+    Socket_list.set(socket.id,room_id);
     let x=0;
     for(let i=0;i<Lobbies[difficulty].length;i++){
       if(Lobbies[difficulty].lobbie_id===room_id){
@@ -135,14 +138,36 @@ io.on("connection", function (socket) {
     console.log(socket.id);
     dis(socket.id);
   })
+function calculate_wpm(pos,accuracy,errors){
+  const minutes = TIME/ 60;
+	const wordsTyped = pos / 5;
+	const wrongWordsTyped = errors / 5;
+	const wpm = (wordsTyped - wrongWordsTyped) / minutes;
+	return wpm > 0 ? wpm : 0;
+}
   socket.on("new_wpm",function (data){
     const room_id=Socket_list.get(socket.id);
     Running.get(room_id).set(socket.id,data);
     const a=[]
-    for([key,value] in Running.get(room_id)){
-      a.push({socket_id:key,data:value});
+    console.log(Running.get(room_id));
+    const res = {};
+    let len=0;
+    for(let [key, value] of Running.get(room_id)){
+      res[key] = value;
+      if(res[key].over===true){
+        res[key].speed=calculate_wpm(res[key].pos,res[key].accuracy,res[key].errors);
+        len++;
+      }
     }
-    io.sockets.in(room_id).emit("update",a);
+    console.log(len + " ---- "+ Running.get(room_id).size)
+    if(len===Running.get(room_id).size){
+      io.sockets.in(room_id).emit("over",res);
+      console.log("udaaa")
+    }
+    else{
+    console.log(res);
+    io.sockets.in(room_id).emit("update", res);
+    }
   })
-  socket.on("leave")
+  // socket.on("leave")
 });
