@@ -65,7 +65,7 @@ for (let i = 0; i < l.length; i++) {
   if (l[i].time === 0) {
     const mp = new Map();   
    
-    console.log(l[i].participants.length);
+    // console.log(l[i].participants.length);
     for (let x = 0; x < l[i].participants.length; x++) {   
       // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
       mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false });
@@ -80,7 +80,7 @@ return a;
 }
 // Deletes Running lobbies with 0 players
 setInterval(function (){
-  console.log(Running);
+  // console.log(Running);
 	for (const [key, value] of Running) {
     
     if(value.size==0){
@@ -144,10 +144,15 @@ io.on("connection", function (socket) {
     const room_id=Socket_list.get(socket.id);
     Running.get(room_id).set(socket.id,data);
     const a=[]
-    for([key,value] in Running.get(room_id)){
-      a.push({socket_id:key,data:value});
+    // console.log(Running.get(room_id));
+    const res = {};
+
+    for(let [key, value] of Running.get(room_id)){
+      res[key] = value;
     }
-    io.sockets.in(room_id).emit("update",a);
+
+    console.log(res);
+    io.sockets.in(room_id).emit("update", res);
   })
-  socket.on("leave")
+  // socket.on("leave")
 });
