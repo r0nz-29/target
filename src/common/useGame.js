@@ -31,6 +31,21 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 	}
 
 	useEffect(() => {
+		if (gameState===GAMESTATES.COMPLETED && mode===GAMEMODES.MULTIPLAYER) {
+			const acc = 100 * ((typed.length - errors) / typed.length);
+			const wpm = calculateWPM(typed, errors, duration - currentTime);
+			socket.emit('new_wpm', {
+				speed: wpm,
+				pos: cursor,
+				over: true,
+				errors: errors,
+				accuracy: acc > 0 ? acc : 0
+			})
+			console.log("sent")
+		}
+	}, [gameState])
+
+	useEffect(() => {
 		if (cursor === words.length) {
 			updateGameState(GAMESTATES.COMPLETED);
 		}
