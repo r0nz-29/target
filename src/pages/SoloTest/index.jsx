@@ -3,11 +3,12 @@ import ResultsModal from "../../components/ResultsModal/index.jsx";
 import useGame from "../../common/useGame.js";
 
 export default function SoloTest() {
-	const {gameState, currentTime, cursor, typed, startGame} = useGame(SOLO_GAME_DURATION);
+	const {gameState, currentTime, cursor, typed, startGame, liveWpm, errors} = useGame(SOLO_GAME_DURATION);
 	const {originalParagraph: words} = useGlobalState();
 
 	return (
 		<div className="w-full h-screen flex flex-col justify-center items-center">
+			<p>current wpm: {liveWpm.toFixed(2)}, errors: <span className="text-red-400">{errors}</span></p>
 			<p
 				className={`justify-start w-1/2 text-xl ${gameState === GAMESTATES.TYPING ? 'text-yellow-300' : 'text-[#333]'}`}>
 				{currentTime}s
