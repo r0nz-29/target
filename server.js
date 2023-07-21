@@ -117,7 +117,13 @@ io.on("connection", function (socket) {
     if(difficulty.length<10){
     const room_id = join_lobby(Lobbies, difficulty, socket);
     socket.join(room_id);
-    socket.emit("room", room_id);
+    let x=0;
+    for(let i=0;i<Lobbies[difficulty].length;i++){
+      if(Lobbies[difficulty].lobbie_id===room_id){
+        x=i;
+      }
+    }
+    io.sockets.in("new_member",Lobbies[i]);
     }
     else{
 
