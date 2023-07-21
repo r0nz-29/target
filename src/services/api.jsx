@@ -4,7 +4,7 @@ import { SERVICE_URLS } from "../config/config";
 
 
 // Load environment variables
-const API_URL = 'http://localhost:8000'
+const API_URL = 'http://localhost:3000'
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -74,9 +74,9 @@ for (const [key, value] of Object.entries(SERVICE_URLS)) {
             url: value.url,
             data: body,
             headers: {
-                      "Accept": "application/json, form-data", 
-                      "Content-Type": "application/json",
-                    //   "Authorization" : 'Bearer ' + localStorage.getItem('token')
+                      // "Accept": "application/json, form-data", 
+                      // "Content-Type": "application/json",
+                      // "Authorization" : 'Bearer ' + localStorage.getItem('token')
             },
         });
 }

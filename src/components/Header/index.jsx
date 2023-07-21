@@ -33,8 +33,9 @@ const Home = () => {
           Practice Mode
         </button>
         <button
-        onClick={() => props.setOpenModal('default')}
-        className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">Multiplayer Mode</button>
+        className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">
+        Multiplayer Mode
+        </button>
       </div>
     </div>
     <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:block hidden">

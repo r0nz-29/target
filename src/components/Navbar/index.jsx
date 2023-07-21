@@ -1,16 +1,12 @@
 import { useState } from "react";
 import styles from './index.module.css';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import {useNavigate} from "react-router";
 
-const Navbar = ({
-  scrollDown,
-  headerSection,
-  projectSection,
-  timelineSection,
-  certificatesSection,
-  contactSection
-}) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -29,18 +25,24 @@ const Navbar = ({
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-            <button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>
+            <button 
+            className={styles.butt_nav}
+            onClick={() => navigate("/")}
+            >
               About
             </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
+            <button className={styles.butt_nav}>
               DashBoard
             </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
+            <button className={styles.butt_nav}>
               FAQs
             </button>
             </div>
           </div>
-          <button className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium">
+          <button 
+          className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium"
+          onClick={() => navigate("/login")}
+          >
             Sign In
           </button>
           <div className="mr-2 flex md:hidden justify-end">
@@ -59,16 +61,14 @@ const Navbar = ({
 
       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>
+        <button className={styles.butt_nav}
+        onClick={() => navigate("/")}>
           About
         </button>
-        <button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
+        <button className={styles.butt_nav}>
           DashBoard
         </button>
-        <button className={styles.butt_nav} onClick={() => handleScroll(timelineSection.current)}>
-          Experience
-        </button>
-        <button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
+        <button className={styles.butt_nav}>
           FAQs
         </button>
         </div>
