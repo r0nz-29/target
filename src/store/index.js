@@ -2,8 +2,14 @@ import {create} from 'zustand'
 import {getParagraph} from "../utils/index.js";
 
 export const WORD_COUNT = 30;
-export const SOLO_GAME_DURATION = 15;
+export const SOLO_GAME_DURATION = 50;
+export const DURATIONS = [25, 50, 75];
 export const BACKSPACE = "Backspace"
+export const DIFFICULTIES = {
+	EASY: 'easy',
+	MEDIUM: 'medium',
+	HARD: 'hard'
+}
 export const SPECIAL_KEYS = new Set([
 	"Tab",
 	"CapsLock",
@@ -30,6 +36,8 @@ export const GAMEMODES = {
 
 export const useGlobalState = create((set) => ({
 	originalParagraph: getParagraph(),
+	activeDuration: DURATIONS[0],
+	soloDifficulty: DIFFICULTIES.EASY,
 	typedParagraph: "",
 	cursorPosition: 0,
 	errors: 0,
@@ -41,6 +49,9 @@ export const useGlobalState = create((set) => ({
 	errorPoints: [],
 	gameState: GAMESTATES.IDLE,
 	setRoomName: name => set(() => ({roomName: name})),
+	setOriginalPara: para => set(() => ({originalParagraph: para})),
+	setSoloDifficulty: diff => set(() => ({soloDifficulty: diff})),
+	setActiveDuration: dur => set(() => ({activeDuration: dur})),
 	setWaitingTimeout: time => set(() => ({waitingTimeout: time})),
 	setRoomMembers: members => set(() => ({roomMembers: members})),
 	incrementCursor: () => set(state => ({cursorPosition: state.cursorPosition + 1})),

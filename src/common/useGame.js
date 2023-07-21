@@ -12,7 +12,6 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 		cursorPosition: cursor,
 		errors,
 		gameState,
-		updateGraph,
 		updateErrorPoints,
 		incrementCursor,
 		incrementErrors,

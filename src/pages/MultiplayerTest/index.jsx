@@ -72,9 +72,23 @@ export default function MultiplayerTest() {
 				<p className='font-bold border p-2'>username</p>
 				<p className='font-bold border p-2'>wpm</p>
 				<p className='font-bold border p-2'>progress</p>
-				{Object.keys(roomMembers).map(username => (
-					<Row key={username} words={words}/>
-				))}
+				{Object.keys(roomMembers).map(username => {
+					// let progress = roomMembers[username]?.pos;
+					// progress = 100 * (progress / words.length);
+					return (
+						<Fragment key={username}>
+							<p className='border p-2'>
+								{socket.id === username ? "me" : username}
+							</p>
+							<p className='border p-2'>
+								{roomMembers[username]?.speed.toFixed(2)}
+							</p>
+							<div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+								<div className="bg-blue-600 h-2.5 rounded-full" style={{width: '45%'}}></div>
+							</div>
+						</Fragment>
+					)
+				})}
 			</div>
 			{
 				!start && <p className="text-xl">Game starts in: <span className="text-red-400">{timeout}s</span></p>
@@ -107,30 +121,5 @@ export default function MultiplayerTest() {
 				)
 			}
 		</div>
-	)
-}
-
-function Row({username, words}) {
-	const [prog, setProg] = useState('0%');
-	const {roomMembers} = useGlobalState();
-
-	useEffect(() => {
-		let progress = roomMembers[username]?.pos;
-		progress = 100 * (progress / words.length);
-		setProg(`${progress}%`);
-	}, [roomMembers, username])
-
-	return (
-		<Fragment key={username}>
-			<p className='border p-2'>
-				{socket.id === username ? "me" : username}
-			</p>
-			<p className='border p-2'>
-				{roomMembers[username]?.speed.toFixed(2)}
-			</p>
-			<div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-				<div className="bg-blue-600 h-2.5 rounded-full" style={{width: prog}}></div>
-			</div>
-		</Fragment>
 	)
 }

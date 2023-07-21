@@ -2,8 +2,13 @@ import {useEffect, useState} from "react";
 import {GAMESTATES, useGlobalState} from "../store/index.js";
 
 export default function useTimer(duration) {
+	const {activeDuration} = useGlobalState()
 	const [timerInSec, setTimerInSec] = useState(duration);
 	const {gameState, updateGameState} = useGlobalState();
+
+	useEffect(() => {
+		setTimerInSec(activeDuration)
+	}, [activeDuration])
 
 	useEffect(() => {
 		if (gameState === GAMESTATES.IDLE || gameState === GAMESTATES.COMPLETED) return;
