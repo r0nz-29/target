@@ -114,6 +114,7 @@ mongoose
 io.on("connection", function (socket) {
   console.log(socket.id);
   socket.on("join", function (difficulty) {
+    console.log('diff --- ' + difficulty);
     if(difficulty.length<10){
     const room_id = join_lobby(Lobbies, difficulty, socket);
     socket.join(room_id);
@@ -123,7 +124,8 @@ io.on("connection", function (socket) {
         x=i;
       }
     }
-    io.sockets.in(room_id).emit("new_member",Lobbies[x]);
+    console.log('lobby' + Lobbies[difficulty][x]);
+    io.sockets.in(room_id).emit("new_member",Lobbies[difficulty][x]);
     }
     else{
 
