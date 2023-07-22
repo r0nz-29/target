@@ -69,7 +69,7 @@ for (let i = 0; i < l.length; i++) {
     // console.log(l[i].participants.length);
     for (let x = 0; x < l[i].participants.length; x++) {   
       // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
-      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0 });
+      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0,username:""});
     }
   Running.set(l[i].lobbie_id, mp);
   io.sockets.in(l[i].lobbie_id).emit('start');
@@ -117,8 +117,11 @@ mongoose
   });
 
 io.on("connection", function (socket) {
+  
   console.log(socket.id);
-  socket.on("join", function (difficulty) {
+  socket.on("join", function (obj) {
+    const user=obj.username;
+    const difficulty=obj.difficulty;
     console.log('diff --- ' + difficulty);
     if(difficulty.length<10){
     const room_id = join_lobby(Lobbies, difficulty, socket);
@@ -131,7 +134,7 @@ io.on("connection", function (socket) {
       }
     }
     console.log('lobby' + Lobbies[difficulty][x]);
-    io.sockets.in(room_id).emit("new_member",Lobbies[difficulty][x]);
+    io.sockets.in(room_id).emit("new_member",{"data":Lobbies[difficulty][x],"user":user,"socket":socket.id});
     }
     else{
 
