@@ -69,7 +69,7 @@ for (let i = 0; i < l.length; i++) {
     // console.log(l[i].participants.length);
     for (let x = 0; x < l[i].participants.length; x++) {   
       // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
-      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0,username:""});
+      mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0});
     }
   Running.set(l[i].lobbie_id, mp);
   io.sockets.in(l[i].lobbie_id).emit('start');
