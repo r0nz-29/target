@@ -6,7 +6,22 @@ export function getParagraph() {
 	// return faker.paragraph(10, {
 	// 	specialCharacters: true,
 	// return faker.word.words({count: WORD_COUNT}); // 'almost'
-	return dataset[DIFFICULTIES.EASY][random(5)];
+	return dataset[DIFFICULTIES.EASY][0];
+}
+
+export function getArrayFromMap(map) {
+	const board = [];
+	Object.keys(map).forEach(key => {
+		const user = {};
+		user.username = key;
+		user.speed = map[key]?.speed;
+		user.pos = map[key]?.pos;
+		user.over = map[key]?.over;
+		user.accuracy = map[key]?.accuracy;
+		user.errors = map[key]?.errors;
+		board.push(user);
+	})
+	return board;
 }
 
 export const calculateWPM = (
@@ -22,5 +37,7 @@ export const calculateWPM = (
 };
 
 export function random(max) {
-	return Math.floor(Math.random() * max);
+	const res = Math.floor(Math.random() * max);
+	if (res >= max) return max-1;
+	else return res;
 }

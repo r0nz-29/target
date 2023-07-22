@@ -7,7 +7,7 @@ export default function SoloDifficultyPicker() {
 	const {soloDifficulty, setSoloDifficulty, setOriginalPara} = useGlobalState();
 
 	useEffect(() => {
-		const para = dataset[soloDifficulty][random(5)];
+		const para = dataset[soloDifficulty][0];
 		setOriginalPara(para);
 	}, [soloDifficulty])
 

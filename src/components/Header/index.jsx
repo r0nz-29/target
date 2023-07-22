@@ -8,7 +8,7 @@ import {socket} from "../../socketConfig.js";
 
 
 const Home = () => {
-	const {findingRoom, setWaitingTimeout, setFindingRoom, setRoomName, setRoomMembers} = useGlobalState();
+	const {findingRoom, setWaitingTimeout, setFindingRoom, setLobbyPara, setRoomName, setRoomMembers, setBoard} = useGlobalState();
 	const [openModal, setOpenModal] = useState('undefined');
 	const props = {openModal, setOpenModal};
 	const backgroundImageUrl = 'url(./Header.svg)';
@@ -18,12 +18,16 @@ const Home = () => {
 	useEffect(() => {
 		function onNewMember(payload) {
 			console.log(payload);
-			const {lobbie_id, participants, time} = payload;
+			const {lobbie_id, participants, time, para} = payload;
+			setLobbyPara(para);
 			setRoomName(lobbie_id);
 			const parts = {};
+			const board = [];
 			for (const p of participants) {
 				parts[p] = {speed: 0, pos: 0, over: false, errors: 0, accuracy: 0};
+				board.push({username: p, speed: 0, pos: 0, over: false, errors: 0, accuracy: 0})
 			}
+			setBoard(board);
 			setRoomMembers(parts);
 			setFindingRoom(false);
 			setWaitingTimeout(time);

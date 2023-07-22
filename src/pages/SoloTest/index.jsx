@@ -6,7 +6,7 @@ import {useEffect} from "react";
 import SoloDifficultyPicker from "../../components/SoloDifficultyPicker.jsx";
 
 export default function SoloTest() {
-	const {originalParagraph: words, activeDuration} = useGlobalState();
+	const {soloParagraph: words, activeDuration} = useGlobalState();
 	const {gameState, currentTime, cursor, typed, startGame, liveWpm, errors} = useGame(activeDuration);
 
 	return (

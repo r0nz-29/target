@@ -2,6 +2,7 @@
 import {useGlobalState} from "../../store/index.js";
 import {calculateWPM} from "../../utils/index.js";
 import {VictoryChart, VictoryLine, VictoryScatter, VictoryTheme} from "victory";
+import {useEffect, useState} from "react";
 
 export default function ResultsModal({duration}) {
 	const {
@@ -10,6 +11,17 @@ export default function ResultsModal({duration}) {
 		graph,
 		errorPoints
 	} = useGlobalState();
+	const [result, setResult] = useState({
+		wpm: '',
+		accuracy: '',
+		mode: 'solo',
+		errors: 0,
+		duration: 0,
+	});
+
+	useEffect(() => {
+		
+	}, [])
 
 	const wpm = calculateWPM(typedParagraph, errors, duration);
 	const accuracy = 100 * ((typedParagraph.length - errors) / typedParagraph.length)

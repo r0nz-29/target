@@ -2,7 +2,7 @@ import {create} from 'zustand'
 import {getParagraph} from "../utils/index.js";
 
 export const WORD_COUNT = 30;
-export const SOLO_GAME_DURATION = 50;
+export const SOLO_GAME_DURATION = 25;
 export const DURATIONS = [25, 50, 75];
 export const BACKSPACE = "Backspace"
 export const DIFFICULTIES = {
@@ -35,7 +35,8 @@ export const GAMEMODES = {
 }
 
 export const useGlobalState = create((set) => ({
-	originalParagraph: getParagraph(),
+	soloParagraph: getParagraph(),
+	lobbyParagraph: "",
 	activeDuration: DURATIONS[0],
 	soloDifficulty: DIFFICULTIES.EASY,
 	typedParagraph: "",
@@ -48,7 +49,10 @@ export const useGlobalState = create((set) => ({
 	graph: [],
 	errorPoints: [],
 	gameState: GAMESTATES.IDLE,
+	board: [],
 	setRoomName: name => set(() => ({roomName: name})),
+	setBoard: board => set(() => ({board})),
+	setLobbyPara: para => set(() => ({lobbyParagraph: para})),
 	setOriginalPara: para => set(() => ({originalParagraph: para})),
 	setSoloDifficulty: diff => set(() => ({soloDifficulty: diff})),
 	setActiveDuration: dur => set(() => ({activeDuration: dur})),

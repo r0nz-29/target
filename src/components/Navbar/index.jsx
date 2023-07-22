@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from './index.module.css';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
+import {useNavigate} from "react-router";
 
 const Navbar = ({
   scrollDown,
@@ -11,6 +12,7 @@ const Navbar = ({
   contactSection
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate()
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,25 +26,26 @@ const Navbar = ({
     <nav className="bg-primary sticky">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex-shrink-0">
+          <div className="flex items-center justify-start gap-x-2 cursor-pointer" onClick={() => navigate('/')}>
             <img src="./logo.svg" alt="#" height={40} width={40} />
+            <p className='text-2xl font-bold'>Rocket Type</p>
           </div>
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-            <button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>
-              About
-            </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
-              DashBoard
-            </button>
-            <button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
-              FAQs
-            </button>
-            </div>
+            {/*<div className="ml-10 flex items-baseline space-x-4">*/}
+            {/*<button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>*/}
+            {/*  About*/}
+            {/*</button>*/}
+            {/*<button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>*/}
+            {/*  DashBoard*/}
+            {/*</button>*/}
+            {/*<button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>*/}
+            {/*  FAQs*/}
+            {/*</button>*/}
+            {/*</div>*/}
           </div>
-          <button className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium">
-            Sign In
-          </button>
+          {/*<button className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium">*/}
+          {/*  Sign In*/}
+          {/*</button>*/}
           <div className="mr-2 flex md:hidden justify-end">
             <button
               onClick={() => toggleMenu()}

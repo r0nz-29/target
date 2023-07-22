@@ -7,7 +7,6 @@ import {socket} from "../socketConfig.js";
 export default function useGame(duration, mode = GAMEMODES.SOLO) {
 	const {currentTime} = useTimer(duration);
 	const {
-		originalParagraph: words,
 		typedParagraph: typed,
 		cursorPosition: cursor,
 		errors,
@@ -18,6 +17,9 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 		updateTypedParagraph: updateParagraph,
 		updateGameState
 	} = useGlobalState(state => state);
+	let {soloParagraph, lobbyParagraph} = useGlobalState();
+	let words = soloParagraph;
+	if (mode === GAMEMODES.MULTIPLAYER) words = lobbyParagraph;
 	const [liveWpm, setLiveWpm] = useState(0);
 
 	function startGame() {
