@@ -1,4 +1,10 @@
-import {GAMEMODES, GAMESTATES, SOLO_GAME_DURATION, useGlobalState} from "../../store/index.js";
+import {
+	GAMEMODES,
+	GAMESTATES,
+	MULTIPLAYER_GAME_DURATION,
+	SOLO_GAME_DURATION,
+	useGlobalState
+} from "../../store/index.js";
 import React, {Fragment, useCallback, useEffect, useState} from "react";
 import {socket} from "../../socketConfig.js";
 import {useNavigate} from "react-router";
@@ -17,10 +23,10 @@ export default function MultiplayerTest() {
 		board,
 		setBoard
 	} = useGlobalState();
-	const {gameState, cursor, typed, startGame, stopGame} = useGame(30, GAMEMODES.MULTIPLAYER);
+	const {gameState, cursor, typed, startGame, stopGame} = useGame(50, GAMEMODES.MULTIPLAYER);
 	const navigate = useNavigate();
 	const {timeout} = useTimout(waitingTimeout);
-	const {currentTime: currentGameTime} = useTimer(SOLO_GAME_DURATION);
+	const {currentTime: currentGameTime} = useTimer(MULTIPLAYER_GAME_DURATION, GAMEMODES.MULTIPLAYER);
 	const [start, setStart] = useState(false);
 	const [showPara, setShowPara] = useState(false);
 

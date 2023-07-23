@@ -53,18 +53,18 @@ const CustomModal = (props) => {
 				<Modal.Header/>
 				<Modal.Body>
 					<div className="text-center">
-						<div className="mb-2 mt-5 text-xl font-normal text-gray-500 dark:text-gray-400">
-							Enter Username
-						</div>
+						{/*<div className="mb-2 mt-5 text-xl font-normal text-gray-500 dark:text-gray-400">*/}
+						{/*	Enter Username*/}
+						{/*</div>*/}
 						<form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
-							<div>
-								<TextInput
-									name="username"
-									required
-									type="text"
-									onChange={handleChange}
-								/>
-							</div>
+							{/*<div>*/}
+							{/*	<TextInput*/}
+							{/*		name="username"*/}
+							{/*		required*/}
+							{/*		type="text"*/}
+							{/*		onChange={handleChange}*/}
+							{/*	/>*/}
+							{/*</div>*/}
 							<div className="flex flex-col justify-center gap-4">
 								<div className="mb-2 mt-5 text-xl font-normal text-gray-500 dark:text-gray-400">
 									Choose the level of difficulty

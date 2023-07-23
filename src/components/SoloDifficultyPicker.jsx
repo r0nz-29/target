@@ -1,14 +1,13 @@
 import {DIFFICULTIES, useGlobalState} from "../store/index.js";
 import {useEffect} from "react";
 import {dataset} from "../constants/data.jsx";
-import {random} from "../utils/index.js";
 
 export default function SoloDifficultyPicker() {
-	const {soloDifficulty, setSoloDifficulty, setOriginalPara} = useGlobalState();
+	const {soloDifficulty, setSoloDifficulty, setSoloPara} = useGlobalState();
 
 	useEffect(() => {
 		const para = dataset[soloDifficulty][0];
-		setOriginalPara(para);
+		setSoloPara(para);
 	}, [soloDifficulty])
 
 	return (
