@@ -3,11 +3,13 @@ import {useGlobalState} from "../../store/index.js";
 import {calculateWPM} from "../../utils/index.js";
 import {VictoryChart, VictoryLine, VictoryScatter, VictoryTheme} from "victory";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 export default function ResultsModal({duration}) {
 	const {
 		errors,
 		typedParagraph,
+		accessToken, account
 	} = useGlobalState();
 	const [result, setResult] = useState({
 		wpm: 0,
@@ -24,13 +26,29 @@ export default function ResultsModal({duration}) {
 			wpm, accuracy, mode: 'solo', errors, duration,
 		});
 
-		let history = localStorage.getItem('_history');
-		if (history === null || history === undefined) history = [];
-		else history = JSON.parse(history);
-		history.push({
-			wpm, accuracy, mode: 'solo', errors, duration, timestamp: Date.now()
-		});
-		localStorage.setItem('_history', JSON.stringify(history));
+		if (accessToken === null) {
+			let history = localStorage.getItem('_history');
+			if (history === null || history === undefined) history = [];
+			else history = JSON.parse(history);
+			history.push({
+				wpm, accuracy, mode: 'solo', errors, duration, timestamp: Date.now()
+			});
+			localStorage.setItem('_history', JSON.stringify(history));
+		} else {
+			const username = account.username;
+			const item = Date.now();
+			const history = {
+				wpm,
+				accuracy,
+				mode: 'solo',
+				errors, duration,
+				timestamp: `${new Date(item).toLocaleTimeString()}\n ${new Date(item).toLocaleDateString()}`};
+			axios
+				.post("http://localhost:3000/user/saveHistory", {username, history})
+				.then(({data}) => {
+					console.log(data);
+				})
+		}
 	}, [])
 
 	return (

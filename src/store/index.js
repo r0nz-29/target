@@ -35,10 +35,6 @@ export const GAMEMODES = {
 	MULTIPLAYER: 'multiplayer'
 }
 
-export const getNameFromId = {
-
-};
-
 export const useGlobalState = create((set) => ({
 	soloParagraph: getParagraph(),
 	lobbyParagraph: "",
@@ -55,6 +51,10 @@ export const useGlobalState = create((set) => ({
 	errorPoints: [],
 	gameState: GAMESTATES.IDLE,
 	board: [],
+	account: { email: '', username: '' },
+	accessToken: null,
+	setAccount: (account) => set(() => ({ account })),
+	setAccessToken: (token) => set(() => ({ accessToken: token })),
 	setRoomName: name => set(() => ({roomName: name})),
 	setBoard: board => set(() => ({board})),
 	setLobbyPara: para => set(() => ({lobbyParagraph: para})),

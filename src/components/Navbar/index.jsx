@@ -1,26 +1,40 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import styles from './index.module.css';
 import {AiOutlineMenu, AiOutlineClose} from 'react-icons/ai';
 import {useNavigate} from "react-router";
+import { FaUserCircle } from "react-icons/fa"
+import {useGlobalState} from "../../store/index.js";
 
-const Navbar = ({
-									scrollDown,
-									headerSection,
-									projectSection,
-									timelineSection,
-									certificatesSection,
-									contactSection
-								}) => {
+const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const navigate = useNavigate()
+	const {accessToken, setAccessToken, setAccount} = useGlobalState();
+
+	const removeToken = () => {
+		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('_rocket_type_user');
+		setAccessToken(null);
+	}
+
+	useEffect(()=>{
+		const loadToken = () => {
+			const tokenFromLocal = localStorage.getItem('accessToken');
+
+			if (tokenFromLocal!==null && tokenFromLocal.length > 0) {
+				setAccessToken(tokenFromLocal);
+				const user = JSON.parse(localStorage.getItem('_rocket_type_user'))
+				setAccount(user);
+			}
+		}
+
+		loadToken()
+	},[accessToken, setAccessToken])
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
 	};
 
-	const handleScroll = (ref) => {
-		scrollDown(ref);
-	};
 
 	return (
 		<nav className="bg-primary sticky">
@@ -33,22 +47,23 @@ const Navbar = ({
 						</div>
 						<p className="text-lg cursor-pointer" onClick={() => navigate('/dashboard')}>Dashboard</p>
 					</div>
-					<div className="hidden md:block">
-						{/*<div className="ml-10 flex items-baseline space-x-4">*/}
-						{/*<button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>*/}
-						{/*  About*/}
-						{/*</button>*/}
-						{/*<button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>*/}
-						{/*  DashBoard*/}
-						{/*</button>*/}
-						{/*<button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>*/}
-						{/*  FAQs*/}
-						{/*</button>*/}
-						{/*</div>*/}
-					</div>
-					{/*<button className="text-white bg-indigo-900 block px-3 py-2 rounded-md text-base font-medium">*/}
-					{/*  Sign In*/}
-					{/*</button>*/}
+					{
+						accessToken === null ? (
+							<button
+								onClick={() => navigate("/login")}
+								className="text-white bg-indigo-900 block mx-2 px-3 py-2 rounded-md font-medium">
+								SignIn
+							</button>
+						) : (
+							<button onClick={() => {
+								removeToken();
+								navigate("/login");
+							}} className="text-white bg-indigo-900 block mx-2 px-3 py-2 rounded-md font-medium">
+									Logout
+								{/*<FaUserCircle/>*/}
+							</button>
+						)
+					}
 					<div className="mr-2 flex md:hidden justify-end">
 						<button
 							onClick={() => toggleMenu()}
@@ -60,23 +75,6 @@ const Navbar = ({
 							<AiOutlineClose className={`${isOpen ? 'block' : 'hidden'}`}/>
 						</button>
 					</div>
-				</div>
-			</div>
-
-			<div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
-				<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-					<button className={styles.butt_nav} onClick={() => handleScroll(headerSection.current)}>
-						About
-					</button>
-					<button className={styles.butt_nav} onClick={() => handleScroll(projectSection.current)}>
-						DashBoard
-					</button>
-					<button className={styles.butt_nav} onClick={() => handleScroll(timelineSection.current)}>
-						Experience
-					</button>
-					<button className={styles.butt_nav} onClick={() => handleScroll(certificatesSection.current)}>
-						FAQs
-					</button>
 				</div>
 			</div>
 		</nav>
