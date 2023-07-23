@@ -1,5 +1,5 @@
 import {GAMEMODES, GAMESTATES, SPECIAL_KEYS, useGlobalState} from "../store/index.js";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {calculateWPM} from "../utils/index.js";
 import useTimer from "./useTimer.js";
 import {socket} from "../socketConfig.js";
@@ -7,18 +7,20 @@ import {socket} from "../socketConfig.js";
 export default function useGame(duration, mode = GAMEMODES.SOLO) {
 	const {currentTime} = useTimer(duration);
 	const {
-		originalParagraph: words,
 		typedParagraph: typed,
 		cursorPosition: cursor,
 		errors,
 		gameState,
-		updateGraph,
 		updateErrorPoints,
 		incrementCursor,
 		incrementErrors,
 		updateTypedParagraph: updateParagraph,
 		updateGameState
 	} = useGlobalState(state => state);
+	let {soloParagraph, lobbyParagraph} = useGlobalState();
+	let words = soloParagraph;
+	if (mode === GAMEMODES.MULTIPLAYER) words = lobbyParagraph;
+	const [liveWpm, setLiveWpm] = useState(0);
 
 	function startGame() {
 		console.log("starting game");
@@ -76,6 +78,9 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 					accuracy: acc > 0 ? acc : 0
 				})
 			}
+			else {
+				setLiveWpm(wpm);
+			}
 			// updateGraph({y: wpm > 0 ? wpm : 0, x: duration - currentTime});
 		}
 
@@ -96,6 +101,8 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 		typed,
 		currentTime,
 		startGame,
-		stopGame
+		stopGame,
+		liveWpm,
+		errors
 	}
 }
