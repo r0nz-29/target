@@ -20,16 +20,19 @@ const userSchema = mongoose.Schema({
   },
   gameHistory: [
     {
-      gameDate: {
-        type: Date,
-        required: true,
-      },
-      gameMode: {
+      timestamp: {
         type: String,
-        enum: ["solo", "multi"],
         required: true,
       },
-      wordsPerMin: {
+      mode: {
+        type: String,
+        default: 'solo'
+      },
+      duration: {
+        type: String,
+        required: true,
+      },
+      wpm: {
         type: Number,
         required: true,
       },
@@ -37,7 +40,7 @@ const userSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
-      error: {
+      errorCount: {
         type: Number,
         required: true,
       },

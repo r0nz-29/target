@@ -6,12 +6,13 @@ const mongoose = require("mongoose");
 const { join_lobby } = require("./lobbies.js");
 const { disconnect } = require("process");
 config();
-const TIME=15;
+const TIME=50;
 const Lobbies = {"easy":[],"medium":[],"hard":[]};
 const Socket_list=new Map();
 const Running = new Map();
 const { signin, signup } = require("./controller/user.js");
 const { saveUser, getUserHistory} = require("./controller/user_history.js")
+const {saveUserHistory} = require("./controller/user_history");
 const Private_lobbies=new Map();
 const app = express();
 const structure = {
@@ -32,6 +33,7 @@ app.post("/signup",signup);
 app.post("/signin",signin);
 app.post("/user",saveUser);
 app.get("/user/userHistory",getUserHistory);
+app.post("/user/saveHistory",saveUserHistory);
 
 
 const http = require("http").createServer(app);
@@ -41,7 +43,7 @@ const io = require("socket.io")(http, {
   },
 });
 // Function to transfer lobbies to running mode
-// Goes through all lobies in particular difficulty decreases time 
+// Goes through all lobies in particular difficulty decreases time
 // one with time 0 is picked A map is created which with key player_socket.id and values as player stats
 // This map acts as a value for Running map which has lobbie id as key
 // emits start to lobby( broadcast ) so all players can start the game
@@ -63,12 +65,12 @@ let l=Lobbies[difficulty];
 
 for (let i = 0; i < l.length; i++) {
   l[i].time--;
-  
+
   if (l[i].time === 0) {
-    const mp = new Map();   
-   
+    const mp = new Map();
+
     // console.log(l[i].participants.length);
-    for (let x = 0; x < l[i].participants.length; x++) {   
+    for (let x = 0; x < l[i].participants.length; x++) {
       // Socket_list.set(l[i].participants[x],l[i].lobbie_id);
       mp.set(l[i].participants[x], { speed: 0, pos: 0, over: false,accuracy:0,errors:0});
     }
@@ -84,14 +86,14 @@ return a;
 setInterval(function (){
   // console.log(Running);
 	for (const [key, value] of Running) {
-    
+
     if(value.size==0){
       Running.delete(key);
     }
   }
 },1000)
 // Transfer lobbies which ran out of time to running
-setInterval(function () { 
+setInterval(function () {
   let a=transfer_lobbies('hard');
   Lobbies.hard=a;
   a=[]
@@ -118,7 +120,7 @@ mongoose
   });
 
 io.on("connection", function (socket) {
-  
+
   console.log(socket.id);
   socket.on("join", function (obj) {
     const user=obj.username;
