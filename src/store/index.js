@@ -35,6 +35,10 @@ export const GAMEMODES = {
 	MULTIPLAYER: 'multiplayer'
 }
 
+export const getNameFromId = {
+
+};
+
 export const useGlobalState = create((set) => ({
 	soloParagraph: getParagraph(),
 	lobbyParagraph: "",

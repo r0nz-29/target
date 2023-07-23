@@ -33,7 +33,7 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 	}
 
 	useEffect(() => {
-		if (gameState===GAMESTATES.COMPLETED && mode===GAMEMODES.MULTIPLAYER) {
+		if (gameState === GAMESTATES.COMPLETED && mode === GAMEMODES.MULTIPLAYER) {
 			const acc = 100 * ((typed.length - errors) / typed.length);
 			const wpm = calculateWPM(typed, errors, duration - currentTime);
 			socket.emit('new_wpm', {
@@ -66,23 +66,10 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 			return;
 		}
 
-		if (e.key === ' ' && currentTime !== duration) {
-			const wpm = calculateWPM(typed, errors, duration - currentTime);
-			if (mode === GAMEMODES.MULTIPLAYER) {
-				const acc = 100 * ((typed.length - errors) / typed.length);
-				socket.emit('new_wpm', {
-					speed: wpm,
-					pos: cursor,
-					over: false,
-					errors: errors,
-					accuracy: acc > 0 ? acc : 0
-				})
-			}
-			else {
-				setLiveWpm(wpm);
-			}
-			// updateGraph({y: wpm > 0 ? wpm : 0, x: duration - currentTime});
-		}
+		// if (e.key === ' ' && currentTime !== duration) {
+		//
+		// 	// updateGraph({y: wpm > 0 ? wpm : 0, x: duration - currentTime});
+		// }
 
 		updateParagraph(e.key);
 		incrementCursor();
@@ -94,6 +81,23 @@ export default function useGame(duration, mode = GAMEMODES.SOLO) {
 		window.addEventListener('keydown', handleKeydown);
 		return () => window.removeEventListener('keydown', handleKeydown);
 	}, [gameState, handleKeydown])
+
+	useEffect(() => {
+		if (currentTime < 0 || gameState!==GAMESTATES.TYPING) return;
+		const wpm = calculateWPM(typed, errors, duration - currentTime);
+		if (mode === GAMEMODES.MULTIPLAYER) {
+			const acc = 100 * ((typed.length - errors) / typed.length);
+			socket.emit('new_wpm', {
+				speed: wpm,
+				pos: cursor,
+				over: false,
+				errors: errors,
+				accuracy: acc > 0 ? acc : 0
+			})
+		} else {
+			setLiveWpm(wpm);
+		}
+	}, [currentTime])
 
 	return {
 		gameState,

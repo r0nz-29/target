@@ -12,18 +12,16 @@ import useTimer from "../../common/useTimer.js";
 import useTimout from "../../common/useTimeout.js";
 import useGame from "../../common/useGame.js";
 import {getArrayFromMap} from "../../utils/index.js";
+import useSync from "./useSync.js";
 
 export default function MultiplayerTest() {
 	const {
 		roomName,
-		roomMembers,
-		setRoomMembers,
 		waitingTimeout,
 		lobbyParagraph: words,
 		board,
-		setBoard
 	} = useGlobalState();
-	const {gameState, cursor, typed, startGame, stopGame} = useGame(50, GAMEMODES.MULTIPLAYER);
+	const {gameState, cursor, typed, startGame, stopGame} = useGame(MULTIPLAYER_GAME_DURATION, GAMEMODES.MULTIPLAYER);
 	const navigate = useNavigate();
 	const {timeout} = useTimout(waitingTimeout);
 	const {currentTime: currentGameTime} = useTimer(MULTIPLAYER_GAME_DURATION, GAMEMODES.MULTIPLAYER);
@@ -34,7 +32,7 @@ export default function MultiplayerTest() {
 		if (timeout <= 0) {
 			setStart(true);
 			startGame();
-		} else if (timeout === 10) {
+		} else if (timeout === 10 && gameState !== GAMESTATES.TYPING) {
 			setShowPara(true);
 		}
 	}, [timeout])
@@ -53,36 +51,7 @@ export default function MultiplayerTest() {
 		}
 	}, [roomName, navigate]);
 
-	useEffect(() => {
-		function onUpdate(payload) {
-			// {username: {speed, pos, over}}
-			const newBoard = getArrayFromMap(payload);
-			newBoard.sort((a, b) => b.speed - a.speed);
-			setBoard(newBoard);
-			setRoomMembers(payload);
-		}
-
-		function onLeave(payload) {
-			delete roomMembers[payload];
-			console.log(roomMembers);
-			const newBoard = getArrayFromMap(roomMembers);
-			newBoard.sort((a, b) => b.speed - a.speed);
-			setBoard(newBoard);
-			setRoomMembers(roomMembers);
-		}
-
-		function onOver(payload) {
-			console.log('over payload')
-			const newBoard = getArrayFromMap(payload);
-			newBoard.sort((a, b) => b.speed - a.speed);
-			setBoard(newBoard);
-			setRoomMembers(payload);
-		}
-
-		socket.on('update', onUpdate);
-		socket.on('leave', onLeave);
-		socket.on('over', onOver);
-	}, [])
+	useSync();
 
 	return (
 		<div className={`w-full h-screen flex flex-col justify-start items-center transition-all ${gameState===GAMESTATES.TYPING ? 'pt-8' : 'pt-40'}`}>
