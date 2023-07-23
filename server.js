@@ -10,6 +10,8 @@ const TIME=15;
 const Lobbies = {"easy":[],"medium":[],"hard":[]};
 const Socket_list=new Map();
 const Running = new Map();
+const { signin, signup } = require("./controller/user.js");
+const { saveUser, getUserHistory} = require("./controller/user_history.js")
 const Private_lobbies=new Map();
 const app = express();
 const structure = {
@@ -26,13 +28,12 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res
-    .status(200)
-    .send(
-      '<img src="https://res.cloudinary.com/daa4wqa2h/image/upload/v1689840737/afj_jhrf75.png" alt="pogger" />'
-    );
-});
+app.post("/signup",signup);
+app.post("/signin",signin);
+app.post("/user",saveUser);
+app.get("/user/userHistory",getUserHistory);
+
+
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
   cors: {
