@@ -17,7 +17,6 @@ exports.getUserHistory = async (request, response) => {
     let userHistory;
     if (username)
       userHistory = await User.findOne({ username: username });
-
     response.status(200).json({ data: userHistory, msg: 'Got user history' });
   } catch (error) {
     response.status(500).json({ err: 'Failed to get user history' });
