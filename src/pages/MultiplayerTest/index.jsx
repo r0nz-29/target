@@ -2,7 +2,6 @@ import {
 	GAMEMODES,
 	GAMESTATES,
 	MULTIPLAYER_GAME_DURATION,
-	SOLO_GAME_DURATION,
 	useGlobalState
 } from "../../store/index.js";
 import React, {Fragment, useCallback, useEffect, useState} from "react";

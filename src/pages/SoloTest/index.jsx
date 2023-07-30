@@ -1,4 +1,4 @@
-import {GAMESTATES, SOLO_GAME_DURATION, useGlobalState} from "../../store/index.js";
+import {GAMESTATES,  useGlobalState} from "../../store/index.js";
 import ResultsModal from "../../components/ResultsModal/index.jsx";
 import useGame from "../../common/useGame.js";
 import TimePicker from "../../components/TimePicker.jsx";
@@ -40,7 +40,7 @@ export default function SoloTest() {
 				</p>
 			</div>
 			{
-				gameState === GAMESTATES.COMPLETED && <ResultsModal duration={SOLO_GAME_DURATION}/>
+				gameState === GAMESTATES.COMPLETED && <ResultsModal duration={activeDuration}/>
 			}
 			<button disabled={gameState === GAMESTATES.TYPING}
 							className={`${gameState === GAMESTATES.IDLE ? 'bg-blue-500 text-white' : 'bg-slate-500 text-black'} px-6 py-2 rounded-lg mt-8`}
