@@ -14,6 +14,22 @@ const Home = () => {
 	const backgroundImageUrl = 'url(./Header.svg)';
 	const backgroundSize = 'cover';
 	const navigate = useNavigate();
+	const [connected, setConnected] = useState(false);
+
+	useEffect(() => {
+		function onConnect() {
+			setConnected(true);
+			console.log('connected!')
+		}
+
+		function onDisconnect() {
+			setConnected(false);
+			console.log('disconnected!')
+		}
+
+		socket.on('connect', onConnect);
+		socket.on('disconnect', onDisconnect);
+	}, []);
 
 	useEffect(() => {
 		function onNewMember(payload) {
@@ -75,7 +91,7 @@ const Home = () => {
 				</div>
 			</section>
 			{
-				openModal && <CustomModal openModal={openModal} setOpenModal={setOpenModal}/>
+				openModal!=='undefined' && <CustomModal openModal={openModal} connected={connected} setOpenModal={setOpenModal}/>
 			}
 			{
 				findingRoom && <ProgressModal title="Looking for lobbies..."/>

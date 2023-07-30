@@ -13,12 +13,12 @@ const apiClient = axios.create({
 
 // Using interceptors to modify requests
 apiClient.interceptors.request.use((config) => {
-  return ({
-    ...config,
-    headers: {
-    },
-  })
-},
+    return ({
+      ...config,
+      headers: {
+      },
+    })
+  },
   error => Promise.reject(error),
 );
 
@@ -34,32 +34,32 @@ apiClient.interceptors.response.use((response) =>
 
 // reponse function for handling response
 const processResponse = (response) => {
-    
-    const responseData = response;
-  
-    if (responseData.success) {
-      return { 
-        isSuccess: true, 
-        data: responseData 
+
+  const responseData = response;
+  console.log(responseData);
+  if (responseData.status === 200) {
+    return {
+      isSuccess: true,
+      data: responseData
     };
-    } else {
-      return {
-        isFailure: true,
-        code: response.status
-      };
-    }
-  };
+  } else {
+    return {
+      isFailure: true,
+      code: response.status
+    };
+  }
+};
 
 
 // function to handle error
 const ProcessError = async (error) => {
-    if(!error.success){
-        console.log("ERROR IN RESPONSE: ", error.toJSON());
-        return {
-            isError: true,
-            code: error.res.status
-          };
-    }
+  if(!error.success){
+    console.log("ERROR IN RESPONSE: ", error.toJSON());
+    return {
+      isError: true,
+      code: error.res.status
+    };
+  }
 }
 
 
@@ -68,17 +68,17 @@ const ProcessError = async (error) => {
 const API = {};
 
 for (const [key, value] of Object.entries(SERVICE_URLS)) {
-    API[key] = (body) =>
-        apiClient({
-            method: value.method,
-            url: value.url,
-            data: body,
-            headers: {
-                      // "Accept": "application/json, form-data", 
-                      // "Content-Type": "application/json",
-                      // "Authorization" : 'Bearer ' + localStorage.getItem('token')
-            },
-        });
+  API[key] = (body) =>
+    apiClient({
+      method: value.method,
+      url: value.url,
+      data: body,
+      headers: {
+        // "Accept": "application/json, form-data",
+        // "Content-Type": "application/json",
+        // "Authorization" : 'Bearer ' + localStorage.getItem('token')
+      },
+    });
 }
 
 export { API };

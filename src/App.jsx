@@ -9,6 +9,7 @@ import Toggleaccount from './components/Account';
 import MultiplayerTest from "./pages/MultiplayerTest/index.jsx";
 import Dashboard from "./components/Dashboard/index.jsx";
 import Faqs from './components/Faqs';
+import {useGlobalState} from "./store/index.js";
 
 function App() {
 	return (

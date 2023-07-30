@@ -2,7 +2,6 @@ import {create} from 'zustand'
 import {getParagraph} from "../utils/index.js";
 
 export const WORD_COUNT = 30;
-export const SOLO_GAME_DURATION = 25;
 export const MULTIPLAYER_GAME_DURATION = 50;
 export const DURATIONS = [25, 50, 75];
 export const BACKSPACE = "Backspace"
@@ -51,6 +50,10 @@ export const useGlobalState = create((set) => ({
 	errorPoints: [],
 	gameState: GAMESTATES.IDLE,
 	board: [],
+	account: { email: '', username: '' },
+	accessToken: null,
+	setAccount: (account) => set(() => ({ account })),
+	setAccessToken: (token) => set(() => ({ accessToken: token })),
 	setRoomName: name => set(() => ({roomName: name})),
 	setBoard: board => set(() => ({board})),
 	setLobbyPara: para => set(() => ({lobbyParagraph: para})),
