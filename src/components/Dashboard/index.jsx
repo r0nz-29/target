@@ -16,7 +16,7 @@ export default function Dashboard() {
 		}
 
 		axios
-			.get("http://localhost:3000/user/userHistory?username=" + account.username)
+			.get("https://rocket-type-backend.onrender.com/user/userHistory?username=" + account.username)
 			.then(({data}) => {
 				const userdata = data.data;
 				console.log(userdata);
