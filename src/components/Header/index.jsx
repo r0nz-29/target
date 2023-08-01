@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import CustomModal from '../Modal/index.jsx'
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useGlobalState} from "../../store/index.js";
 import ProgressModal from "../Modal/ProgressModal.jsx";
 import {socket} from "../../socketConfig.js";
