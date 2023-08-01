@@ -15,6 +15,7 @@ const Home = () => {
 	const backgroundSize = 'cover';
 	const navigate = useNavigate();
 	const [connected, setConnected] = useState(false);
+	const { pathname } = useLocation();
 
 	useEffect(() => {
 		function onConnect() {
@@ -29,7 +30,7 @@ const Home = () => {
 
 		socket.on('connect', onConnect);
 		socket.on('disconnect', onDisconnect);
-	}, []);
+	}, [pathname]);
 
 	useEffect(() => {
 		function onNewMember(payload) {
