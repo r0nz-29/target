@@ -80,8 +80,8 @@ const Home = () => {
 							</button>
 							<button
 								onClick={() => props.setOpenModal('default')}
-								className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">Multiplayer
-								Mode
+								className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-900 hover:text-white rounded text-lg">
+								Multiplayer Mode
 							</button>
 						</div>
 					</div>

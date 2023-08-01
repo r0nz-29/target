@@ -8,8 +8,6 @@ import NavBar from './components/Navbar'
 import Toggleaccount from './components/Account';
 import MultiplayerTest from "./pages/MultiplayerTest/index.jsx";
 import Dashboard from "./components/Dashboard/index.jsx";
-import Faqs from './components/Faqs';
-import {useGlobalState} from "./store/index.js";
 
 function App() {
 	return (
@@ -19,7 +17,6 @@ function App() {
 				<Route path="/" element={<Home/>}/>
 				<Route path="/solo" element={<SoloTest/>}/>
 				<Route path="/dashboard" element={<Dashboard/>}/>
-				<Route path="/faqs" element={ <Faqs/> }/>
 				<Route path="/login" element = { <Toggleaccount/> }/>
 				<Route path="/multiplayer" element={<MultiplayerTest/>}/>
 				<Route path="/multiplayer/leaderboard" element={<><Leader/><LeaderBoard/></>}/>
