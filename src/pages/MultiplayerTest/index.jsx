@@ -4,13 +4,12 @@ import {
 	MULTIPLAYER_GAME_DURATION,
 	useGlobalState
 } from "../../store/index.js";
-import React, {Fragment, useCallback, useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {socket} from "../../socketConfig.js";
 import {useNavigate} from "react-router";
 import useTimer from "../../common/useTimer.js";
 import useTimout from "../../common/useTimeout.js";
 import useGame from "../../common/useGame.js";
-import {getArrayFromMap} from "../../utils/index.js";
 import useSync from "./useSync.js";
 
 export default function MultiplayerTest() {
@@ -24,12 +23,10 @@ export default function MultiplayerTest() {
 	const navigate = useNavigate();
 	const {timeout} = useTimout(waitingTimeout);
 	const {currentTime: currentGameTime} = useTimer(MULTIPLAYER_GAME_DURATION, GAMEMODES.MULTIPLAYER);
-	const [start, setStart] = useState(false);
 	const [showPara, setShowPara] = useState(false);
 
 	useEffect(() => {
 		if (timeout <= 0) {
-			setStart(true);
 			startGame();
 		} else if (timeout === 10 && gameState !== GAMESTATES.TYPING) {
 			setShowPara(true);
