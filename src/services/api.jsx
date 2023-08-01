@@ -4,7 +4,7 @@ import { SERVICE_URLS } from "../config/config";
 
 
 // Load environment variables
-const API_URL = 'http://localhost:3000'
+const API_URL = 'https://rocket-type-backend.onrender.com'
 
 const apiClient = axios.create({
   baseURL: API_URL,
