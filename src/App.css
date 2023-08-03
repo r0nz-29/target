@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #fff;
+    background-color: #111;
 }
 
 .para-container {
@@ -26,6 +26,19 @@ body {
 
 @keyframes blink {
     50% {
-        border-color: #fff;
+        border-color: #000;
     }
+}
+
+.dotted-background {
+    background-image: radial-gradient(#222 5%,#0000001f 15%);
+    background-color: #000;
+    position: fixed!important;
+    background-position: 0 0,14px 14px;
+    background-size: 16px 16px;
+    width: 100%;
+}
+
+.good-font {
+    font-family: 'Inter Variable';
 }

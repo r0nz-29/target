@@ -44,15 +44,15 @@ const Login = ({ onValueChange, login, error, loginUser, toggle }) => {
                 <div className="text-center lg:text-left">
                   <button
                     type="button"
-                    className="inline-block px-7 py-3 bg-primary text-black font-medium text-sm rounded shadow-md hover:bg-indigo-900 hover:text-white hover:shadow-lg active:shadow-lg"
+                    className="inline-block px-7 py-3 bg-primary text-black font-medium text-sm rounded shadow-md bg-indigo-800 hover:bg-indigo-900 hover:text-white hover:shadow-lg active:shadow-lg"
                     onClick={() => loginUser()}
                   >
                     Login
                   </button>
                   <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                    <p className="text-center font-semibold mx-4 mb-0">Or</p>
+                    <p className="text-center font-semibold mx-4 mb-0 text-white">Or</p>
                   </div>
-                  <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+                  <p className="text-sm text-white font-semibold mt-2 pt-1 mb-0">
                     Don't have an account?
                     <button
                       className="text-indigo-900 hover:text-blue-700 focus:text-blue-700 focus:outline-none font-semibold pl-1"
