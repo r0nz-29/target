@@ -11,13 +11,13 @@ export default function SoloDifficultyPicker() {
 	}, [soloDifficulty])
 
 	return (
-		<div className="grid grid-cols-3">
+		<div className="grid grid-cols-3 justify-between items-center  py-1 px-2 text-sm text-white bg-zinc-500 rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-zinc-800">
 			{Object.keys(DIFFICULTIES).map(diff => (
 				<div key={diff}
-						 className={`cursor-pointer p-2 px-4 ${diff === "HARD" && 'border-y border-r border-slate-300 rounded-r-lg'} ${diff === "EASY" && 'border-y border-l rounded-l-lg border-slate-300'} ${DIFFICULTIES[diff] === soloDifficulty && 'bg-blue-100 border-blue-400'} ${diff === "MEDIUM" && `border border-slate-300`}`}
+						 className={`rounded-full cursor-pointer py-2 px-6 ${DIFFICULTIES[diff] === soloDifficulty && 'text-white bg-gradient-to-tl from-slate-800 via-violet-500 to-zinc-400 rounded-full text-md font-medium'}`}
 						 onClick={() => setSoloDifficulty(DIFFICULTIES[diff])}
 				>
-					<p className={`${DIFFICULTIES[diff] === soloDifficulty && 'text-blue-500'}`}>{diff}</p>
+					<p className='text-white text-center'>{diff}</p>
 				</div>
 			))}
 		</div>

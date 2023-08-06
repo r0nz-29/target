@@ -3,13 +3,13 @@ import {DURATIONS, useGlobalState} from "../store/index.js";
 export default function TimePicker() {
 	const {activeDuration, setActiveDuration} = useGlobalState();
 	return (
-		<div className="grid grid-cols-3">
+		<div className="grid grid-cols-3 mb-6 justify-between items-center  py-1 px-2 text-sm text-white bg-zinc-500 rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-40 border border-zinc-800">
 			{DURATIONS.map(duration => (
 				<div key={duration}
-					className={`cursor-pointer p-2 px-4 ${duration === DURATIONS[2] && 'border-y border-r border-slate-300 rounded-r-lg'} ${duration === DURATIONS[0] && 'border-y border-l rounded-l-lg border-slate-300'} ${duration === activeDuration && 'bg-blue-100 border-blue-400'} ${duration === DURATIONS[1] && `border border-slate-300`}`}
+					className={`rounded-full cursor-pointer py-2 px-6  ${duration === activeDuration && 'text-white bg-gradient-to-tl from-slate-800 via-violet-500 to-zinc-400 rounded-full text-md font-medium'}`}
 					onClick={() => setActiveDuration(duration)}
 				>
-					<p className={`${duration === activeDuration && 'text-blue-500'}`}>{duration}s</p>
+					<p className='text-white'>{duration}s</p>
 				</div>
 			))}
 		</div>

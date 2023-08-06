@@ -19,7 +19,7 @@ const SignUp = ({ onInputChange, signupUser, error, toggle }) => {
           <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
             <form>
               <div className="text-indigo-900 font-bold font-primaryfont text-4xl py-5 md:mx-auto">
-                Rokcet Type
+                Rocket Type
               </div>
 
               <div className="mb-6">
@@ -55,16 +55,16 @@ const SignUp = ({ onInputChange, signupUser, error, toggle }) => {
               <div className="text-center lg:text-left">
                 <button
                   type="button"
-                  className="inline-block px-7 py-3 bg-primary font-medium text-sm rounded shadow-md hover:bg-indigo-900 hover:text-white hover:shadow-lg active:shadow-lg"
+                  className="inline-block px-7 py-3 bg-primary font-medium text-sm rounded shadow-md bg-indigo-800 text-white hover:bg-indigo-900 hover:text-white hover:shadow-lg active:shadow-lg"
                   onClick={() => signupUser()}
                 >
                   Sign In
                 </button>
 
                 <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                  <p className="text-center font-semibold mx-4 mb-0">Or</p>
+                  <p className="text-center font-semibold mx-4 mb-0 text-white">Or</p>
                 </div>
-                <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+                <p className="text-sm font-semibold mt-2 pt-1 mb-0 text-white">
                   Already have an account?
                   <button
                     href="#!"
