@@ -1,68 +1,21 @@
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import CustomModal from '../Modal/index.jsx'
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useGlobalState} from "../../store/index.js";
 import ProgressModal from "../Modal/ProgressModal.jsx";
 import {socket} from "../../socketConfig.js";
 
 
 const Home = () => {
-	const {findingRoom, setWaitingTimeout, setFindingRoom, setLobbyPara, setRoomName, setRoomMembers, setBoard} = useGlobalState();
-	const [openModal, setOpenModal] = useState('undefined');
-	const props = {openModal, setOpenModal};
-	const backgroundImageUrl = 'url(./Header.svg)';
-	const backgroundSize = 'cover';
-	const navigate = useNavigate();
-	const [connected, setConnected] = useState(false);
 
-	useEffect(() => {
-		function onConnect() {
-			setConnected(true);
-			console.log('connected!')
-		}
-
-		function onDisconnect() {
-			setConnected(false);
-			console.log('disconnected!')
-		}
-
-		socket.on('connect', onConnect);
-		socket.on('disconnect', onDisconnect);
-	}, []);
-
-	useEffect(() => {
-		function onNewMember(payload) {
-			console.log(payload);
-			const {lobbie_id, participants, time, para} = payload;
-			setLobbyPara(para);
-			setRoomName(lobbie_id);
-			const parts = {};
-			const board = [];
-			for (const p of participants) {
-				parts[p] = {speed: 0, pos: 0, over: false, errors: 0, accuracy: 0};
-				board.push({username: p, speed: 0, pos: 0, over: false, errors: 0, accuracy: 0})
-			}
-			setBoard(board);
-			setRoomMembers(parts);
-			setFindingRoom(false);
-			setWaitingTimeout(time);
-			navigate('/multiplayer')
-		}
-
-		socket.on('new_member', onNewMember)
-		return () => {
-		};
-	}, []);
 
 	return (
 		<>
-			<section className="text-white body-font py-24" style={{
-				backgroundImage: backgroundImageUrl,
-				backgroundSize: backgroundSize,
-				height: '100%',
-				width: '100vw',
-			}}>
+			<section
+				className="text-white body-font"
+				style={{height: '100%', width: '100vw'}}
+			>
 				<div className="mx-auto flex px-12 md:flex-row flex-col items-center">
 					<div
 						className="lg:flex-grow md:w-1/2 lg:px-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
@@ -84,9 +37,6 @@ const Home = () => {
 								Multiplayer Mode
 							</button>
 						</div>
-					</div>
-					<div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:block hidden">
-						<img className="object-cover object-center rounded" alt="Hero" src="Hero.svg"/>
 					</div>
 				</div>
 			</section>

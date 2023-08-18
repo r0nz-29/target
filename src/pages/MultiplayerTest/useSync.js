@@ -30,10 +30,16 @@ export default function useSync() {
 			newBoard.sort((a, b) => b.speed - a.speed);
 			setBoard(newBoard);
 			setRoomMembers(payload);
+
+			socket.disconnect();
 		}
 
 		socket.on('update', onUpdate);
 		socket.on('leave', onLeave);
 		socket.on('over', onOver);
+
+		return () => {
+			socket.disconnect();
+		}
 	}, [])
 }

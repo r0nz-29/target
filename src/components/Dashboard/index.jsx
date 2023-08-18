@@ -16,7 +16,7 @@ export default function Dashboard() {
 		}
 
 		axios
-			.get("http://localhost:3000/user/userHistory?username=" + account.username)
+			.get("https://rocket-type-backend.onrender.com/user/userHistory?username=" + account.username)
 			.then(({data}) => {
 				const userdata = data.data;
 				console.log(userdata);
@@ -25,7 +25,7 @@ export default function Dashboard() {
 	}, [accessToken])
 
 	return (
-		<div className="container p-8 border">
+		<div className="container p-8 bg-zinc-800 rounded-lg">
 			<div>
 				{
 					accessToken !== null && (
@@ -47,7 +47,7 @@ export default function Dashboard() {
 
 function HistoryCard({item}) {
 	return (
-		<div className='p-4 border shadow rounded-lg' key={item.timestamp}>
+		<div className='p-4 shadow rounded-lg bg-white/[0.1]' key={item.timestamp}>
 			<p className='flex justify-between'>
 				<div>WPM</div>
 				<div className='text-2xl font-bold'>{item.wpm.toFixed(2)}</div>
