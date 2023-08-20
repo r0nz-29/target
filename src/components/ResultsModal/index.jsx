@@ -1,7 +1,6 @@
 // eslint-disable-next-line react/prop-types
 import {useGlobalState} from "../../store/index.js";
 import {calculateWPM} from "../../utils/index.js";
-import {VictoryChart, VictoryLine, VictoryScatter, VictoryTheme} from "victory";
 import {useEffect, useState} from "react";
 import axios from "axios";
 

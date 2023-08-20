@@ -61,7 +61,7 @@ const Navbar = () => {
 											navigate("/login");
 										}}
 										className="good-font text-white hover:text-gray-200 bg-zinc-800 border border-zinc-700 rounded-full px-6 py-2 text-md font-medium">
-										Login
+										Logout
 									</button>
 								)
 							}
